@@ -22,7 +22,8 @@ LICENSE="GPL-2"
 SLOT="0"
 IUSE=""
 
-DEPEND="dev-python/fido2
+DEPEND="
+		>=dev-python/fido2-1.0.0
         ${PYTHON_DEPS}
         "
 RDEPEND="${DEPEND}"
