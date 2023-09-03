@@ -34,10 +34,6 @@ src_prepare() {
 }
 
 src_compile() {
-    if [ "$(echo -e "${PV}\n1.2.10" |sort -Vr | head -n1)" = "1.2.10" ]; then 
-        sed -i 's/^import u2flib_host\.u2f/import fido2/m' qubesu2f/tools/__init__.py
-        sed -i 's/^import u2flib_host.\u2f/import fido2/m' qubesu2f/tests/conformance.py
-	fi
     myopt="${myopt} DESTDIR=${D} SYSTEMD=1 BACKEND_VMM=xen LIBDIR=/usr/$(get_libdir)"
 	emake ${myopt} all
 }
