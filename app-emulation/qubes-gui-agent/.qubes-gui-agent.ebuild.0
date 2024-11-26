@@ -38,7 +38,7 @@ DEPEND="app-emulation/qubes-libvchan-xen
         dev-python/pyxdg[${PYTHON_USEDEP}]
         media-libs/alsa-lib
         media-sound/alsa-utils
-        media-sound/pulseaudio
+        media-libs/libpulse
         media-video/pipewire
         ${PYTHON_DEPS}
         "
