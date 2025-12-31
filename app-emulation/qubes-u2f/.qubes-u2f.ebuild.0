@@ -1,0 +1,52 @@
+# Maintainer: Frédéric Pierret <frederic.pierret@qubes-os.org>
+
+EAPI=8
+
+DISTUTILS_USE_PEP517=setuptools
+PYTHON_COMPAT=( python3_{10..14} )
+
+inherit git-r3 multilib distutils-r1 qubes udev
+
+if [[ ${PV} == *9999 ]]; then
+	EGIT_COMMIT=HEAD
+else
+	EGIT_COMMIT="v${PV}"
+fi
+
+EGIT_REPO_URI="https://github.com/QubesOS/qubes-app-u2f.git"
+
+KEYWORDS="amd64"
+DESCRIPTION="A secure forwarder for U2F messages"
+HOMEPAGE="http://www.qubes-os.org"
+LICENSE="GPL-2"
+
+SLOT="0"
+IUSE=""
+
+DEPEND="
+	>=dev-python/fido2-1.0.0
+	dev-python/packaging
+	net-analyzer/nmap[ncat]
+	${PYTHON_DEPS}
+	"
+RDEPEND="${DEPEND}"
+PDEPEND=""
+
+src_prepare() {
+	qubes_verify_sources_git "${EGIT_COMMIT}"
+	default
+}
+
+src_compile() {
+	myopt="${myopt} DESTDIR=${D} SYSTEMD=1 BACKEND_VMM=xen LIBDIR=/usr/$(get_libdir)"
+	emake ${myopt} all
+}
+
+src_install() {
+	emake ${myopt} install
+}
+
+pkg_postinst() {
+	udev_reload
+}
+
